@@ -1,0 +1,58 @@
+﻿<Window x:Class="EditingUsersWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EditingUsersWPF"
+        mc:Ignorable="d"
+        Title="Главное окно" Height="634" Width="800" Background="MediumAquamarine">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25*"/>
+            <RowDefinition Height="191*"/>
+            <RowDefinition Height="38*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center" Width="300">
+            <TextBox Width="250" Height="30"/>
+            <Button Height="30" Width="50"  Content="Найти"/>
+        </StackPanel>
+        <ListView Grid.Column="0" Grid.Row="1"  />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2" Width="240" >
+            <Button Height="30" Width="100"  Content="Добавить" />
+            <Button Height="30" Width="100"  Content="Удалить" Margin="20"/>
+        </StackPanel>
+        <Grid Grid.Column="1" Grid.RowSpan="3">
+            <StackPanel Orientation="Vertical" Width="375" >
+                <Label Content="Фамилия" HorizontalAlignment="Center"></Label>
+                <TextBox Width="350" HorizontalAlignment="Center"></TextBox>
+                <Label Content="Имя" HorizontalAlignment="Center"></Label>
+                <TextBox Width="350" HorizontalAlignment="Center"></TextBox>
+                <Label Content="Отчество" HorizontalAlignment="Center"></Label>
+                <TextBox Width="350" HorizontalAlignment="Center"></TextBox>
+                <Label Content="Дата рождения" HorizontalAlignment="Center"></Label>
+                <DatePicker Width="350"></DatePicker>
+                <StackPanel Orientation="Horizontal" Height="150" Width="350">
+                    <StackPanel Orientation="Vertical" Width="175">
+                        <Label Content="Пол" Margin="10"></Label>
+                        <RadioButton GroupName="Gender" Content="М" Margin="10"></RadioButton>
+                        <RadioButton GroupName="Gender" Content="Ж" Margin="10"></RadioButton>
+                        <CheckBox Content="Заблокировать" Margin="10"></CheckBox>
+                    </StackPanel>
+                    <Image  Width="175" Visibility="Visible" />
+                    
+
+                </StackPanel>
+                <Button Height="30" Width="100"  Content="Загрузить" Margin="10" HorizontalAlignment="Right"></Button>
+                <DataGrid  Height="205" ColumnHeaderHeight="20"  AutoGenerateColumns="False">
+                    <DataGridTextColumn Header="Название модуля" Width="150" />
+                    <DataGridComboBoxColumn Header="Уровень доступа" Width="90"></DataGridComboBoxColumn>
+                </DataGrid>
+            </StackPanel>
+
+        </Grid>
+    </Grid>
+</Window>
