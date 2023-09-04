@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BusinessLogic.EnumBase;
+using BusinessLogic.ViewModelEnumBase;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +26,17 @@ namespace EditingUsersWPF
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new ApplicationViewModel(new EnumValuesProvider(new EnumDescriptionProvider()));
+        }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void TextBox_LostFocus_1(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
