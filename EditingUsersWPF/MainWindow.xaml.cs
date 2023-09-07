@@ -26,7 +26,7 @@ namespace EditingUsersWPF
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new ApplicationViewModel(new EnumValuesProvider(new EnumDescriptionProvider()));
+            DataContext = new ApplicationViewModel();
         }
 
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)

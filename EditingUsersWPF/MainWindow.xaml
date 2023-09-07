@@ -39,7 +39,7 @@
                 <TextBox Text="{Binding Pattern, UpdateSourceTrigger=PropertyChanged}" Height="30"></TextBox>
                 <Button Command="{Binding Pattern}" Grid.Column="1" Content="Найти"/>
             </Grid>
-            <ListBox HorizontalContentAlignment="Stretch"  SelectedItem="{Binding SelectedUser}" ItemsSource="{Binding Users}" Margin="0,5"  Grid.Row="1">
+            <ListBox HorizontalContentAlignment="Stretch"  SelectedItem="{Binding SelectedUser}" ItemsSource="{Binding UserViewModel}" Margin="0,5"  Grid.Row="1">
  
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -65,10 +65,11 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <StackPanel  FlowDirection="RightToLeft" HorizontalAlignment="Right" Grid.Row="2" Orientation="Horizontal">
+            <StackPanel FlowDirection="RightToLeft" HorizontalAlignment="Right" Grid.Row="2" Orientation="Horizontal">
                 <Button Content="Удалить" Width="100" ></Button>
                 <Button Content="Добавить" Margin="10,0" Width="100" ></Button>
                 <Button IsEnabled="{Binding Enabled, UpdateSourceTrigger=PropertyChanged}"  Width="100" Content="Сохранить"/>
+                
             </StackPanel>
         </Grid>
         <Grid Margin="5" Grid.Column="1">
@@ -108,10 +109,10 @@
 
                 </StackPanel>
             </Grid>
-            <DataGrid AutoGenerateColumns="False"  ItemsSource="{Binding SelectedUser.Permissions}"   Grid.Row="2">
+            <DataGrid AutoGenerateColumns="False"  ItemsSource="{Binding SelectedUser.PermissionsViewModel}"   Grid.Row="2">
                 <DataGrid.Columns>
-                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding Module.Name}"  Header="Название модуля" Width="150"  />
-                    <DataGridComboBoxColumn SelectedItemBinding="{Binding EditMode}" ItemsSource="{Binding TestEnum1}"  SelectedValuePath="Value" DisplayMemberPath="Description"   Header="Уровень доступа" >
+                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding ModuleName}"  Header="Название модуля" Width="150"  />
+                    <DataGridComboBoxColumn SelectedItemBinding="{Binding SelectedMode}" ItemsSource="{Binding TestEnum1}"  SelectedValuePath="Value"   Header="Уровень доступа" >
                     </DataGridComboBoxColumn>
                 </DataGrid.Columns>
             </DataGrid>
