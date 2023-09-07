@@ -14,14 +14,24 @@ namespace EditingUsersWPF
     {
         Permission permission;
         Modules module;
-        private ObservableCollection<ModesViewModel<Modes>> ModesEnum { get; }
-        
+        private ObservableCollection<ModesViewModel<Modes>> modesEnum;
+
+
         public PermissionViewModel(Permission permission, IEnumValuesProvider enumProvider) { 
             this.permission = permission;
-            ModesEnum = enumProvider.GetValues<Modes>().ToObservableCollection();
+            modesEnum = enumProvider.GetValues<Modes>().ToObservableCollection();
             module = permission.Module;
         }
-
+        public ObservableCollection<ModesViewModel<Modes>> ModesEnum
+        {
+            get { return modesEnum; }
+            set
+            {
+                modesEnum = value;
+                OnPropertyChanged("ModesEnum");
+            }
+        }
+    
         public Modes SelectedMode
         {
             get { return permission.Mode; }

@@ -112,7 +112,7 @@
             <DataGrid AutoGenerateColumns="False"  ItemsSource="{Binding SelectedUser.PermissionsViewModel}"   Grid.Row="2">
                 <DataGrid.Columns>
                     <DataGridTextColumn IsReadOnly="True" Binding="{Binding ModuleName}"  Header="Название модуля" Width="150"  />
-                    <DataGridComboBoxColumn SelectedItemBinding="{Binding SelectedMode}" ItemsSource="{Binding TestEnum1}"  SelectedValuePath="Value"   Header="Уровень доступа" >
+                    <DataGridComboBoxColumn SelectedItemBinding="{Binding SelectedMode}" ItemsSource="{Binding ModesEnum}"  SelectedValuePath="Value" DisplayMemberPath="Description"   Header="Уровень доступа" >
                     </DataGridComboBoxColumn>
                 </DataGrid.Columns>
             </DataGrid>

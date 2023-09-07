@@ -70,35 +70,6 @@ namespace EditingUsersWPF
                 new Permission { Id = Guid.NewGuid(), UserId = Guid.NewGuid(), Mode = BusinessLogic.Modes.Admin, ModuleId = Modules[3].Id, Module = Modules[3] }
             };
 
-            //UserViewModel = new ObservableCollection<UserViewModel>
-            //{
-            //    new UserViewModel {FirstName="Дмитрий", LastName="Беломытцев", MiddleName="Сергеевич", Birthday=new DateTime(2005,3,31),
-            //        Gender=User.Genders.Man, IsBlocked=false, CreateDate=DateTime.Now, ModifiedDate=DateTime.Now,
-            //        Id=Guid.NewGuid(), Permissions = PermissionsList, Photo = userPhoto},
-            //    new User {FirstName="Мария", LastName="Искакова", MiddleName="Ринатовна", Birthday=new DateTime(2005,3,31),
-            //        Gender=User.Genders.Woman, IsBlocked=false, CreateDate=DateTime.Now, ModifiedDate=DateTime.Now,
-            //        Id=Guid.NewGuid(), Permissions = PermissionsList1, Photo = userPhoto},
-            //    new User {FirstName="Мария", LastName="Искакова", MiddleName="Ринатовна", Birthday=new DateTime(2000,3,31),
-            //        Gender=User.Genders.Woman, IsBlocked=false, CreateDate=DateTime.Now, ModifiedDate=DateTime.Now,
-            //        Id=Guid.NewGuid(), Permissions = PermissionsList1, Photo = userPhoto}
-
-                
-
-            //};
-            
-
-            //PermissionViewModel = new ObservableCollection<PermissionViewModel> 
-            //{
-            //     new PermissionViewModel(new Permission
-            //     {  
-            //        Id = Guid.NewGuid(),
-            //        UserId = Guid.NewGuid(),
-            //        Mode = BusinessLogic.Modes.Admin,
-            //        ModuleId = Modules[0].Id,
-            //        Module = Modules[0]
-            //     }, new EnumValuesProvider(new EnumDescriptionProvider()))
-
-            //};
 
             User user = new User
             {
