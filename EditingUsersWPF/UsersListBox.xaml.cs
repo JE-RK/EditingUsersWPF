@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,14 +16,13 @@ using System.Windows.Shapes;
 namespace EditingUsersWPF
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Логика взаимодействия для UsersListBox.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class UsersListBox : UserControl
     {
-        public MainWindow()
+        public UsersListBox()
         {
             InitializeComponent();
-            DataContext = new ApplicationViewModel();
         }
     }
 }

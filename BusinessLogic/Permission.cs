@@ -1,6 +1,4 @@
-﻿using BusinessLogic.EnumBase;
-using BusinessLogic.ViewModelEnumBase;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -19,16 +17,6 @@ namespace BusinessLogic
         public Modes Mode { get; set; }
         public Guid ModuleId { get; set; }
         public Modules Module { get; set; }
-
-
-
-        private Modules module;
-        private Modes editmode;
-
-
-
-        
-        
     }
 }
 

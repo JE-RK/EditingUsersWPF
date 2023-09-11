@@ -5,19 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EditingUsersWPF" 
         xmlns:bl="clr-namespace:BusinessLogic;assembly=BusinessLogic" 
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"  
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"         
         mc:Ignorable="d"
         Title="Главное окно" Height="634" Width="800">
     <Window.Resources>
-        <ObjectDataProvider x:Key="EnumDataSource"
+        <!--<ObjectDataProvider x:Key="EnumDataSource"
                         ObjectType="{x:Type sys:Enum}"
                         MethodName="GetValues">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="bl:Modes"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
-        <local:EnumConverter x:Key="enumConverter"/>
+        <local:EnumConverter x:Key="enumConverter"/>-->
     </Window.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="220" Width="*"/>
@@ -38,6 +39,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBox Text="{Binding Pattern, UpdateSourceTrigger=PropertyChanged}" Height="30"></TextBox>
                 <Button Command="{Binding Pattern}" Grid.Column="1" Content="Найти"/>
+                
             </Grid>
             <ListBox HorizontalContentAlignment="Stretch"  SelectedItem="{Binding SelectedUser}" ItemsSource="{Binding UserViewModel}" Margin="0,5"  Grid.Row="1">
  
@@ -95,6 +97,7 @@
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel DataContext="{Binding SelectedUser}" Grid.Column="0">
+                    <local:UserControl1 x:Name="myControl"/>
                     <TextBlock>Пол</TextBlock>
                     <RadioButton IsChecked="{Binding IsMan}" Content="М"/>
                     <RadioButton IsChecked="{Binding IsWoman}" Content="Ж"/>
@@ -109,10 +112,27 @@
 
                 </StackPanel>
             </Grid>
-            <DataGrid AutoGenerateColumns="False"  ItemsSource="{Binding SelectedUser.PermissionsViewModel}"   Grid.Row="2">
+            <DataGrid AutoGenerateColumns="False" DataContext="{Binding SelectedUser}"  ItemsSource="{Binding PermissionsViewModel}"   Grid.Row="2">
                 <DataGrid.Columns>
-                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding ModuleName}"  Header="Название модуля" Width="150"  />
-                    <DataGridComboBoxColumn SelectedItemBinding="{Binding SelectedMode}" ItemsSource="{Binding ModesEnum}"  SelectedValuePath="Value" DisplayMemberPath="Description"   Header="Уровень доступа" >
+                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding ModuleName}"  Header="Название модуля" Width="150"/>
+                    <DataGridComboBoxColumn SelectedValueBinding="{Binding SelectedMode.Value, UpdateSourceTrigger=PropertyChanged}" 
+                                            SelectedValuePath="Value" 
+                                            DisplayMemberPath="Description"   
+                                            Header="Уровень доступа">
+                        <DataGridComboBoxColumn.ElementStyle>
+                            <Style TargetType="ComboBox">
+                                <Setter Property="ItemsSource" 
+                                        Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.ModesEnum}"/>
+                                <Setter Property="IsReadOnly" Value="True"/>
+                            </Style>
+
+                        </DataGridComboBoxColumn.ElementStyle>
+                        <DataGridComboBoxColumn.EditingElementStyle>
+                            <Style TargetType="ComboBox">
+                                <Setter Property="ItemsSource" 
+                                        Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.ModesEnum}"/>
+                            </Style>
+                        </DataGridComboBoxColumn.EditingElementStyle>
                     </DataGridComboBoxColumn>
                 </DataGrid.Columns>
             </DataGrid>

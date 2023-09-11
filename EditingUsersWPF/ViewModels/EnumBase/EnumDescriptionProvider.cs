@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLogic.EnumBase
+namespace EditingUsersWPF.ViewModels.EnumBase
 {
     public class EnumDescriptionProvider : IEnumDescriptionProvider
     {

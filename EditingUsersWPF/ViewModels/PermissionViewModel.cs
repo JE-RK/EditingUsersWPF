@@ -1,5 +1,7 @@
 ﻿using BusinessLogic;
-using BusinessLogic.ViewModelEnumBase;
+using EditingUsersWPF.ViewModels.EnumBase;
+using EditingUsersWPF.ViewModels.ViewModelEnumBase;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,30 +16,22 @@ namespace EditingUsersWPF
     {
         Permission permission;
         Modules module;
+        EnumDescriptionProvider enumDescription;
+        ModesViewModel<Modes> selectedMode;
         private ObservableCollection<ModesViewModel<Modes>> modesEnum;
-
-
-        public PermissionViewModel(Permission permission, IEnumValuesProvider enumProvider) { 
+        public PermissionViewModel(Permission permission) { 
             this.permission = permission;
-            modesEnum = enumProvider.GetValues<Modes>().ToObservableCollection();
             module = permission.Module;
+            enumDescription = new EnumDescriptionProvider();
+            selectedMode = new ModesViewModel<Modes>(permission.Mode, enumDescription.GetDescription(permission.Mode));
         }
-        public ObservableCollection<ModesViewModel<Modes>> ModesEnum
+       
+        public ModesViewModel<Modes> SelectedMode
         {
-            get { return modesEnum; }
+            get { return selectedMode; }
             set
             {
-                modesEnum = value;
-                OnPropertyChanged("ModesEnum");
-            }
-        }
-    
-        public Modes SelectedMode
-        {
-            get { return permission.Mode; }
-            set
-            {
-                permission.Mode = value;
+                selectedMode = value;
                 OnPropertyChanged("SelectedMode");
             }
         }

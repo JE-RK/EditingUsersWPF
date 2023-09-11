@@ -1,27 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using BusinessLogic;
-using static BusinessLogic.Permission;
-using Microsoft.Win32;
-using System.Windows.Input;
-using EditingUsersWPF;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using System.IO;
-using static BusinessLogic.Modes;
-using BusinessLogic.ViewModelEnumBase;
-using Microsoft.VisualBasic;
-using System.Windows.Controls.Primitives;
-using System.Windows;
 using EditingUsersDAL;
-using BusinessLogic.EnumBase;
-using Microsoft.VisualBasic.ApplicationServices;
 using User = BusinessLogic.User;
+using EditingUsersWPF.ViewModels.EnumBase;
+using EditingUsersWPF.ViewModels.ViewModelEnumBase;
 
 namespace EditingUsersWPF
 {
@@ -51,7 +38,6 @@ namespace EditingUsersWPF
 
         public ApplicationViewModel()
         {
-            PermissionViewModel = new ObservableCollection<PermissionViewModel>();
             userPhoto = File.ReadAllBytes(@"C:\Users\d-bel\Downloads\kinozpis.jpg");
             usersProvider = new RegisteredUsersProvider();
             Modules = new List<Modules>
@@ -87,7 +73,7 @@ namespace EditingUsersWPF
             };
             UserViewModel = new ObservableCollection<UserViewModel>
             {
-                new UserViewModel(user)
+                new UserViewModel(user, new EnumValuesProvider(new EnumDescriptionProvider()))
             };
         }
 

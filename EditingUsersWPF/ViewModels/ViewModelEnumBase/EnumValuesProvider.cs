@@ -1,11 +1,11 @@
-﻿using BusinessLogic.EnumBase;
+﻿using EditingUsersWPF.ViewModels.EnumBase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLogic.ViewModelEnumBase
+namespace EditingUsersWPF.ViewModels.ViewModelEnumBase
 {
     public class EnumValuesProvider : IEnumValuesProvider
     {
@@ -15,6 +15,7 @@ namespace BusinessLogic.ViewModelEnumBase
         {
             _descriptionProvider = descriptionProvider;
         }
+
 
         public IEnumerable<ModesViewModel<TEnum>> GetValues<TEnum>()
             where TEnum : Enum

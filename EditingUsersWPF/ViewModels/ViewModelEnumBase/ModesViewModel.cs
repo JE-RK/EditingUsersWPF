@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLogic
+namespace EditingUsersWPF.ViewModels.ViewModelEnumBase
 {
     public class ModesViewModel<TEnum> where TEnum : Enum
     {
-        public TEnum Value { get; }
+        public TEnum Value { get; set; }
         public string Description { get; }
 
         public ModesViewModel(TEnum value, string description)

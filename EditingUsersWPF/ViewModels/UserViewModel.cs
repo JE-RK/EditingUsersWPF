@@ -1,6 +1,6 @@
 ﻿using BusinessLogic;
-using BusinessLogic.EnumBase;
-using BusinessLogic.ViewModelEnumBase;
+using EditingUsersWPF.ViewModels.EnumBase;
+using EditingUsersWPF.ViewModels.ViewModelEnumBase;
 using EditingUsersDAL;
 using System;
 using System.Collections.Generic;
@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static BusinessLogic.User;
+using EditingUsersWPF.ViewModels.ViewModelEnumBase;
 
 namespace EditingUsersWPF
 {
@@ -16,20 +17,31 @@ namespace EditingUsersWPF
     {
         private User user;
         private ObservableCollection<PermissionViewModel> permissionViewModel;
-        public UserViewModel(User user) 
+        private ObservableCollection<ModesViewModel<Modes>> modesEnum;
+        public UserViewModel(User user, IEnumValuesProvider enumProvider) 
         { 
             this.user = user;
             permissionViewModel = new ObservableCollection<PermissionViewModel>(user.Permissions.Select(x => 
-            new PermissionViewModel(x, new EnumValuesProvider(new EnumDescriptionProvider()))));
-        }
+            new PermissionViewModel(x)));
+            modesEnum = enumProvider.GetValues<Modes>().ToObservableCollection();
 
+        }
+        public ObservableCollection<ModesViewModel<Modes>> ModesEnum
+        {
+            get { return modesEnum; }
+            set
+            {
+                modesEnum = value;
+                OnPropertyChanged("ModesEnum");
+            }
+        }
         public ObservableCollection<PermissionViewModel> PermissionsViewModel
         {
             get { return permissionViewModel; }
             set
             {
                 permissionViewModel = value;
-                OnPropertyChanged("Permissions");
+                OnPropertyChanged("PermissionsViewModel");
             }
         }
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLogic.ViewModelEnumBase
+namespace EditingUsersWPF.ViewModels.ViewModelEnumBase
 {
     public interface IEnumValuesProvider
     {
