@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -21,10 +23,14 @@ namespace EditingUsersWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        ApplicationViewModel viewModel;
+        UserPermission userPermission;
         public MainWindow()
         {
+            viewModel = new ApplicationViewModel();
+            userPermission = new UserPermission(viewModel.SelectedUser.PermissionsViewModel);
             InitializeComponent();
-            DataContext = new ApplicationViewModel();
+            DataContext = viewModel;
         }
     }
 }

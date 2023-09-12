@@ -97,7 +97,6 @@
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel DataContext="{Binding SelectedUser}" Grid.Column="0">
-                    <local:UserControl1 x:Name="myControl"/>
                     <TextBlock>Пол</TextBlock>
                     <RadioButton IsChecked="{Binding IsMan}" Content="М"/>
                     <RadioButton IsChecked="{Binding IsWoman}" Content="Ж"/>
@@ -112,30 +111,10 @@
 
                 </StackPanel>
             </Grid>
-            <DataGrid AutoGenerateColumns="False" DataContext="{Binding SelectedUser}"  ItemsSource="{Binding PermissionsViewModel}"   Grid.Row="2">
-                <DataGrid.Columns>
-                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding ModuleName}"  Header="Название модуля" Width="150"/>
-                    <DataGridComboBoxColumn SelectedValueBinding="{Binding SelectedMode.Value, UpdateSourceTrigger=PropertyChanged}" 
-                                            SelectedValuePath="Value" 
-                                            DisplayMemberPath="Description"   
-                                            Header="Уровень доступа">
-                        <DataGridComboBoxColumn.ElementStyle>
-                            <Style TargetType="ComboBox">
-                                <Setter Property="ItemsSource" 
-                                        Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.ModesEnum}"/>
-                                <Setter Property="IsReadOnly" Value="True"/>
-                            </Style>
-
-                        </DataGridComboBoxColumn.ElementStyle>
-                        <DataGridComboBoxColumn.EditingElementStyle>
-                            <Style TargetType="ComboBox">
-                                <Setter Property="ItemsSource" 
-                                        Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.ModesEnum}"/>
-                            </Style>
-                        </DataGridComboBoxColumn.EditingElementStyle>
-                    </DataGridComboBoxColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+            <local:UserPermission Grid.Row="2"/>
+            <!--<DataGrid AutoGenerateColumns="False" DataContext="{Binding SelectedUser}"  ItemsSource="{Binding PermissionsViewModel}"   Grid.Row="2">
+                
+            </DataGrid>-->
         </Grid>
     </Grid>
 </Window>

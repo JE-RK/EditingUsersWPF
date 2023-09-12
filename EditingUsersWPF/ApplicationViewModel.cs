@@ -19,10 +19,8 @@ namespace EditingUsersWPF
         public List<UserViewModel> Users { get; set; }
         public List<Modules> Modules;
         public ObservableCollection<Permission> PermissionsList { get; set; }
-        public List<Permission> PermissionsList1 { get; set; }
         IUsersProvider usersProvider;
         public ObservableCollection<UserViewModel> UserViewModel { get; set; }
-        public ObservableCollection<PermissionViewModel> PermissionViewModel { get; set; }
         public UserViewModel SelectedUser
         {
             get { return selectedUser; }
