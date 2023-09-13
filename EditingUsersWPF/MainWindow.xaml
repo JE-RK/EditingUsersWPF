@@ -9,16 +9,12 @@
         mc:Ignorable="d"
         Title="Главное окно" Height="634" Width="800">
     <Window.Resources>
-        <!--<ObjectDataProvider x:Key="EnumDataSource"
-                        ObjectType="{x:Type sys:Enum}"
-                        MethodName="GetValues">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="bl:Modes"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <local:EnumConverter x:Key="enumConverter"/>-->
+        
+        <DataTemplate  DataType="{x:Type local:UserViewModel}">
+            <local:UserItem />
+        </DataTemplate>
     </Window.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="220" Width="*"/>
@@ -41,37 +37,15 @@
                 <Button Command="{Binding Pattern}" Grid.Column="1" Content="Найти"/>
                 
             </Grid>
-            <ListBox HorizontalContentAlignment="Stretch"  SelectedItem="{Binding SelectedUser}" ItemsSource="{Binding UserViewModel}" Margin="0,5"  Grid.Row="1">
- 
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="80"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="80"/>
-                            </Grid.RowDefinitions>
-                            <StackPanel Grid.Column="0">
-                                <TextBlock Text="{Binding Path=LastName}" />
-                                <TextBlock Text="{Binding Path=FirstName}" />
-                                <TextBlock Text="{Binding Path=MiddleName}" />
-                                <TextBlock Text="{Binding Path=TranslateGender}" />
-                                <TextBlock Text="{Binding Path=TranslateIsBlocked}" />
-                            </StackPanel>
-                            <Border Grid.Column="2" Background="Gray"/>
-                            <Image HorizontalAlignment="Center" Grid.Column="2" Height="80" Width="150" Source="{Binding Path=Photo}" />
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
+            <ListBox HorizontalContentAlignment="Stretch" SelectedItem="{Binding SelectedUser}" Margin="0,5"  Grid.Row="1">
+                <ContentControl>
+                    <local:UserItem/>
+                </ContentControl>
             </ListBox>
             <StackPanel FlowDirection="RightToLeft" HorizontalAlignment="Right" Grid.Row="2" Orientation="Horizontal">
                 <Button Content="Удалить" Width="100" ></Button>
                 <Button Content="Добавить" Margin="10,0" Width="100" ></Button>
                 <Button IsEnabled="{Binding Enabled, UpdateSourceTrigger=PropertyChanged}"  Width="100" Content="Сохранить"/>
-                
             </StackPanel>
         </Grid>
         <Grid Margin="5" Grid.Column="1">
@@ -112,9 +86,6 @@
                 </StackPanel>
             </Grid>
             <local:UserPermission Grid.Row="2"/>
-            <!--<DataGrid AutoGenerateColumns="False" DataContext="{Binding SelectedUser}"  ItemsSource="{Binding PermissionsViewModel}"   Grid.Row="2">
-                
-            </DataGrid>-->
         </Grid>
     </Grid>
 </Window>

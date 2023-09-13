@@ -26,10 +26,9 @@ namespace EditingUsersWPF
     public partial class UserPermission
     {
 
-        public UserPermission(ObservableCollection<PermissionViewModel> permissionlist)
+        public UserPermission()
         {
             InitializeComponent();
-            DataContext = permissionlist;
         }
     }
 }
