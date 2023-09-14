@@ -10,7 +10,7 @@
         Title="Главное окно" Height="634" Width="800">
     
     <Window.Resources>
-        <DataTemplate x:Key="Data" DataType="{x:Type local:UserViewModel}">
+        <DataTemplate DataType="{x:Type local:UserViewModel}">
             <local:UserItem />
         </DataTemplate>
     </Window.Resources>
@@ -86,7 +86,7 @@
 
                 </StackPanel>
             </Grid>
-            <local:UserPermission Grid.Row="2"/>
+            <local:UserPermission DataContext="{Binding SelectedUser}" ItemsSource="{Binding PermissionViewModel}" Grid.Row="2"/>
         </Grid>
     </Grid>
 </Window>
