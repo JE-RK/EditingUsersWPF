@@ -20,7 +20,7 @@ namespace EditingUsersWPF
         public List<Modules> Modules;
         public ObservableCollection<Permission> PermissionsList { get; set; }
         IUsersProvider usersProvider;
-        public ObservableCollection<UserViewModel> UserViewModel { get; set; }
+        public ObservableCollection<UserViewModel> UserViewModelList { get; set; }
         public UserViewModel SelectedUser
         {
             get { return selectedUser; }
@@ -69,7 +69,7 @@ namespace EditingUsersWPF
                 Permissions = PermissionsList,
                 Photo = userPhoto
             };
-            UserViewModel = new ObservableCollection<UserViewModel>
+            UserViewModelList = new ObservableCollection<UserViewModel>
             {
                 new UserViewModel(user, new EnumValuesProvider(new EnumDescriptionProvider()))
             };

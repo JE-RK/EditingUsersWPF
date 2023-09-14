@@ -18,7 +18,7 @@ namespace EditingUsersWPF
     /// <summary>
     /// Логика взаимодействия для UserItem.xaml
     /// </summary>
-    public partial class UserItem : UserControl
+    public partial class UserItem 
     {
         public UserItem()
         {
