@@ -9,6 +9,7 @@ using EditingUsersDAL;
 using User = BusinessLogic.User;
 using EditingUsersWPF.ViewModels.EnumBase;
 using EditingUsersWPF.ViewModels.ViewModelEnumBase;
+using Permission = BusinessLogic.Permission;
 
 namespace EditingUsersWPF
 {
@@ -19,8 +20,8 @@ namespace EditingUsersWPF
         public List<UserViewModel> Users { get; set; }
         public List<Modules> Modules;
         public ObservableCollection<Permission> PermissionsList { get; set; }
-        IUsersProvider usersProvider;
         public ObservableCollection<UserViewModel> UserViewModelList { get; set; }
+
         public UserViewModel SelectedUser
         {
             get { return selectedUser; }
@@ -37,7 +38,6 @@ namespace EditingUsersWPF
         public ApplicationViewModel()
         {
             userPhoto = File.ReadAllBytes(@"C:\Users\d-bel\Downloads\kinozpis.jpg");
-            usersProvider = new RegisteredUsersProvider();
             Modules = new List<Modules>
             {
                 new Modules {Id = Guid.NewGuid(), Name="Продажи"},
@@ -90,43 +90,7 @@ namespace EditingUsersWPF
             }
         }
 
-        //public List<User> UsersList
-        //{
-        //    get { return usersProvider.GetAllUsers(); }
-        //}
-
-        //private RelayCommand deleteCommand;
-        //public RelayCommand DeleteCommand
-        //{
-        //    get
-        //    {
-        //        return addCommand ??
-        //          (openCommand = new RelayCommand(obj =>
-        //          {
-        //              usersProvider.DeleteUser(SelectedUser);
-        //          }));
-        //    }
-        //}
-
-        //enable кнопки при изменении юзера
-        //private bool enabled = false;
-        //public bool Enabled
-        //{
-        //    get
-        //    {
-
-        //        if (selectedUser != null)
-        //        {
-        //            User user = selectedUser;
-        //            if (user.FirstName != selectedUser.FirstName)
-        //            {
-        //                enabled = true;
-        //            }
-        //        }
-        //        return enabled;
-                
-        //    }
-        //}
+        
             
         private RelayCommand openCommand;
         public RelayCommand OpenCommand

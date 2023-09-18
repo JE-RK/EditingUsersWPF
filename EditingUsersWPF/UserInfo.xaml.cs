@@ -1,10 +1,5 @@
-﻿using BusinessLogic;
-using Catel.Collections;
-using EditingUsersWPF.ViewModels.EnumBase;
-using EditingUsersWPF.ViewModels.ViewModelEnumBase;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,12 +16,11 @@ using System.Windows.Shapes;
 namespace EditingUsersWPF
 {
     /// <summary>
-    /// Логика взаимодействия для UserPermission.xaml
+    /// Логика взаимодействия для UserInfo.xaml
     /// </summary>
-    public partial class UserPermission
+    public partial class UserInfo : UserControl
     {
-
-        public UserPermission()
+        public UserInfo()
         {
             InitializeComponent();
         }

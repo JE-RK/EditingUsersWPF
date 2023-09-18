@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace EditingUsersWPF.Migrations
+namespace EditingUsersDAL.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -11,6 +11,18 @@ namespace EditingUsersWPF.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Modules",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Modules", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
@@ -22,9 +34,9 @@ namespace EditingUsersWPF.Migrations
                     Birthday = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Gender = table.Column<int>(type: "integer", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Photo = table.Column<byte[]>(type: "bytea", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsBlocked = table.Column<bool>(type: "boolean", nullable: false)
+                    IsBlocked = table.Column<bool>(type: "boolean", nullable: false),
+                    Photo = table.Column<byte[]>(type: "bytea", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,7 +44,7 @@ namespace EditingUsersWPF.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Permission",
+                name: "Permissions",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -42,9 +54,15 @@ namespace EditingUsersWPF.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Permission", x => x.Id);
+                    table.PrimaryKey("PK_Permissions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Permission_Users_UserId",
+                        name: "FK_Permissions_Modules_ModuleId",
+                        column: x => x.ModuleId,
+                        principalTable: "Modules",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Permissions_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -52,8 +70,13 @@ namespace EditingUsersWPF.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Permission_UserId",
-                table: "Permission",
+                name: "IX_Permissions_ModuleId",
+                table: "Permissions",
+                column: "ModuleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Permissions_UserId",
+                table: "Permissions",
                 column: "UserId");
         }
 
@@ -61,7 +84,10 @@ namespace EditingUsersWPF.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Permission");
+                name: "Permissions");
+
+            migrationBuilder.DropTable(
+                name: "Modules");
 
             migrationBuilder.DropTable(
                 name: "Users");

@@ -23,7 +23,7 @@ namespace BusinessLogic
         public DateTime ModifiedDate { get; set; }
         public bool IsBlocked { get; set; }
         public ObservableCollection<Permission> Permissions { get; set; }
-       public byte[] Photo { get; set; }
+        public byte[] Photo { get; set; }
 
         public enum Genders
         { 

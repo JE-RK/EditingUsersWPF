@@ -28,5 +28,10 @@ namespace EditingUsersWPF
             InitializeComponent();
             DataContext = new ApplicationViewModel();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ApplicationContext db = new ApplicationContext();
+        }
     }
 }

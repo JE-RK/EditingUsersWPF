@@ -8,17 +8,15 @@ using BusinessLogic;
 
 namespace EditingUsersDAL
 {
-    public class ApplicationContext : DbContext
+    public class ApplicationDBContext : DbContext
     {
-        public ApplicationContext() {
-            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-        }
         public DbSet<User> Users { get; set; }
         public DbSet<Modules> Modules { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Username=postgres;Password=123098;Database=RegisteredUsers");
+            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Username=postgres;Password=123098;Database=RegisteredUsersDB");
         }
     }
 }

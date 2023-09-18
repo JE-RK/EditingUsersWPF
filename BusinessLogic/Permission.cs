@@ -10,7 +10,7 @@ using static BusinessLogic.Modes;
 
 namespace BusinessLogic
 {
-    public class Permission : NotifyPropertyChangedBaseClass
+    public class Permission
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
