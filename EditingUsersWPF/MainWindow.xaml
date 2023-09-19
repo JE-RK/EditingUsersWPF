@@ -44,7 +44,7 @@
             </ListBox>
             <StackPanel FlowDirection="RightToLeft" HorizontalAlignment="Right" Grid.Row="2" Orientation="Horizontal">
                 <Button Content="Удалить" Width="100" ></Button>
-                <Button Content="Добавить" Margin="10,0" Width="100" ></Button>
+                <Button Command="{Binding AddCommand}" Content="Добавить" Margin="10,0" Width="100" ></Button>
                 <Button IsEnabled="{Binding Enabled, UpdateSourceTrigger=PropertyChanged}"  Width="100" Content="Сохранить" Click="Button_Click"/>
             </StackPanel>
         </Grid>

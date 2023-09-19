@@ -15,6 +15,7 @@ namespace EditingUsersWPF
 {
     public class ApplicationViewModel : NotifyPropertyChangedBaseClass
     {
+        IRepository<EditingUsersDAL.User> repositoryUsers;
         private UserViewModel selectedUser;
         private byte[] userPhoto;
         public List<UserViewModel> Users { get; set; }
@@ -37,6 +38,7 @@ namespace EditingUsersWPF
 
         public ApplicationViewModel()
         {
+            repositoryUsers = new PostgreSQLUserRepository();
             userPhoto = File.ReadAllBytes(@"C:\Users\d-bel\Downloads\kinozpis.jpg");
             Modules = new List<Modules>
             {
@@ -82,16 +84,16 @@ namespace EditingUsersWPF
             get
             {
                 return addCommand ??
-                  (openCommand = new RelayCommand(obj =>
-                  {
-                      
+                    (addCommand = new RelayCommand(obj =>
+                    {
 
-                  }));
+                        repositoryUsers.Save();
+                    }));
             }
         }
 
-        
-            
+
+
         private RelayCommand openCommand;
         public RelayCommand OpenCommand
         {
