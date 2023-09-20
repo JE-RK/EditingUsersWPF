@@ -10,15 +10,18 @@ using User = BusinessLogic.User;
 using EditingUsersWPF.ViewModels.EnumBase;
 using EditingUsersWPF.ViewModels.ViewModelEnumBase;
 using Permission = BusinessLogic.Permission;
+using System.Collections;
 
 namespace EditingUsersWPF
 {
     public class ApplicationViewModel : NotifyPropertyChangedBaseClass
     {
-        IRepository<EditingUsersDAL.User> repositoryUsers;
+
+        List<User> users = new List<User>();
+        IRepository<Modules> modulesRepository;
+        IRepository<User> repositoryUsers;
         private UserViewModel selectedUser;
         private byte[] userPhoto;
-        public List<UserViewModel> Users { get; set; }
         public List<Modules> Modules;
         public ObservableCollection<Permission> PermissionsList { get; set; }
         public ObservableCollection<UserViewModel> UserViewModelList { get; set; }
@@ -32,13 +35,11 @@ namespace EditingUsersWPF
                 OnPropertyChanged("SelectedUser");
             }
         }
-
-        
-
-
         public ApplicationViewModel()
         {
             repositoryUsers = new PostgreSQLUserRepository();
+            modulesRepository = new PostgreSQLModelsRepository();
+            users = repositoryUsers.GetUserList().ToList();
             userPhoto = File.ReadAllBytes(@"C:\Users\d-bel\Downloads\kinozpis.jpg");
             Modules = new List<Modules>
             {
@@ -71,10 +72,11 @@ namespace EditingUsersWPF
                 Permissions = PermissionsList,
                 Photo = userPhoto
             };
-            UserViewModelList = new ObservableCollection<UserViewModel>
+            UserViewModelList = new ObservableCollection<UserViewModel>();
+            foreach (var item in users)
             {
-                new UserViewModel(user, new EnumValuesProvider(new EnumDescriptionProvider()))
-            };
+                UserViewModelList.Add(new UserViewModel(item, new EnumValuesProvider(new EnumDescriptionProvider())));
+            }
         }
 
 
@@ -86,12 +88,24 @@ namespace EditingUsersWPF
                 return addCommand ??
                     (addCommand = new RelayCommand(obj =>
                     {
-
+                        repositoryUsers.Create(selectedUser.user);   
                         repositoryUsers.Save();
                     }));
             }
         }
 
+        private RelayCommand addEmptyUserCommand;
+        public RelayCommand AddEmptyUserCommand
+        {
+            get
+            {
+                return addEmptyUserCommand ??
+                    (addEmptyUserCommand = new RelayCommand(obj =>
+                    {
+                        UserViewModelList.Add(new UserViewModel(new User(), new EnumValuesProvider(new EnumDescriptionProvider())));
+                    }));
+            }
+        }
 
 
         private RelayCommand openCommand;
@@ -122,15 +136,5 @@ namespace EditingUsersWPF
             }
         }
 
-        string _pattern;
-        public string Pattern
-        {
-            get => _pattern;
-            set
-            {
-                _pattern = value;
-                SelectedUser = Users.FirstOrDefault(x => x.LastName.StartsWith(Pattern));
-            }
-        }
     }
 }

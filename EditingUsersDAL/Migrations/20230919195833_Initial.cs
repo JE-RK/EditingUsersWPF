@@ -31,10 +31,10 @@ namespace EditingUsersDAL.Migrations
                     LastName = table.Column<string>(type: "text", nullable: false),
                     FirstName = table.Column<string>(type: "text", nullable: false),
                     MiddleName = table.Column<string>(type: "text", nullable: false),
-                    Birthday = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Birthday = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Gender = table.Column<int>(type: "integer", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     IsBlocked = table.Column<bool>(type: "boolean", nullable: false),
                     Photo = table.Column<byte[]>(type: "bytea", nullable: false)
                 },

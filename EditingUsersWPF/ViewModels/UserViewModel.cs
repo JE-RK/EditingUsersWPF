@@ -11,22 +11,52 @@ using System.Threading.Tasks;
 using static BusinessLogic.User;
 using EditingUsersWPF.ViewModels.ViewModelEnumBase;
 using User = BusinessLogic.User;
+using System.Windows.Forms;
+using System.IO;
 
 namespace EditingUsersWPF
 {
     public class UserViewModel : NotifyPropertyChangedBaseClass
     {
-        private User user;
+        public User user;
         private ObservableCollection<PermissionViewModel> permissionViewModel;
         private ObservableCollection<ModesViewModel<Modes>> modesEnum;
         public UserViewModel(User user, IEnumValuesProvider enumProvider) 
         { 
             this.user = user;
-            permissionViewModel = new ObservableCollection<PermissionViewModel>(user.Permissions.Select(x => 
+            permissionViewModel = new ObservableCollection<PermissionViewModel>(user.Permissions.Select(x =>
             new PermissionViewModel(x)));
             modesEnum = enumProvider.GetValues<Modes>().ToObservableCollection();
-
         }
+
+        private RelayCommand openCommand;
+        public RelayCommand OpenCommand
+        {
+            get
+            {
+                return openCommand ??
+                  (openCommand = new RelayCommand(obj =>
+                  {
+                      if (user != null)
+                      {
+                          OpenFileDialog openFileDialog = new OpenFileDialog();
+                          openFileDialog.Filter = "Файлы изображений (*.bmp, *.jpg, *.png)|*.bmp;*.jpg;*.png";
+                          openFileDialog.ShowDialog();
+                          var path = openFileDialog.FileName;
+                          if (path != "")
+                          {
+                              Photo = File.ReadAllBytes(path);
+                          }
+                          else
+                          {
+                              openFileDialog.Reset();
+                          }
+                      }
+
+                  }));
+            }
+        }
+
         public ObservableCollection<ModesViewModel<Modes>> ModesEnum
         {
             get { return modesEnum; }

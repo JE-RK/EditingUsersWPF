@@ -12,7 +12,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" DataContext="{Binding SelectedUser}" >
+        <StackPanel Grid.Row="0"  >
             <TextBlock>Имя</TextBlock>
             <TextBox Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock>Фамилия</TextBlock>
@@ -28,7 +28,7 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <StackPanel DataContext="{Binding SelectedUser}" Grid.Column="0">
+            <StackPanel Grid.Column="0">
                 <TextBlock>Пол</TextBlock>
                 <RadioButton IsChecked="{Binding IsMan}" Content="М"/>
                 <RadioButton IsChecked="{Binding IsWoman}" Content="Ж"/>
@@ -37,14 +37,14 @@
             </StackPanel>
             <StackPanel  Grid.Column="2">
                 <Border Height="130" Width="130"  Background="Gray">
-                    <Image Source="{Binding Path= SelectedUser.Photo}"  Height="120"/>
+                    <Image Source="{Binding Path= Photo}"  Height="120"/>
                 </Border>
                 <Button Command="{Binding OpenCommand}" Height="30" Content="Загрузить"/>
 
             </StackPanel>
 
         </Grid>
-        <DataGrid AutoGenerateColumns="False" DataContext="{Binding SelectedUser}" ItemsSource="{Binding PermissionsViewModel}" Grid.Row="2">
+        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding PermissionsViewModel}" Grid.Row="2">
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Binding="{Binding ModuleName}"  Header="Название модуля" Width="150"/>
                 <DataGridComboBoxColumn SelectedValueBinding="{Binding SelectedMode.Value, UpdateSourceTrigger=PropertyChanged}" 
