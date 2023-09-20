@@ -17,14 +17,13 @@ namespace EditingUsersWPF
     public class ApplicationViewModel : NotifyPropertyChangedBaseClass
     {
 
-        List<User> users = new List<User>();
-        IRepository<Modules> modulesRepository;
+        ObservableCollection<User> users = new ObservableCollection<User>();
         IRepository<User> repositoryUsers;
         private UserViewModel selectedUser;
         private byte[] userPhoto;
         public List<Modules> Modules;
         public ObservableCollection<Permission> PermissionsList { get; set; }
-        public ObservableCollection<UserViewModel> UserViewModelList { get; set; }
+        public ObservableCollection<UserViewModel> UserViewModelList  { get; set; } = new ObservableCollection<UserViewModel>();
 
         public UserViewModel SelectedUser
         {
@@ -37,9 +36,14 @@ namespace EditingUsersWPF
         }
         public ApplicationViewModel()
         {
+            
             repositoryUsers = new PostgreSQLUserRepository();
-            modulesRepository = new PostgreSQLModelsRepository();
-            users = repositoryUsers.GetUserList().ToList();
+            users = new ObservableCollection<User>(repositoryUsers.GetUserList());
+            foreach (var item in users)
+            {
+                UserViewModelList.Add(new UserViewModel(item, new EnumValuesProvider(new EnumDescriptionProvider())));
+            }
+
             userPhoto = File.ReadAllBytes(@"C:\Users\d-bel\Downloads\kinozpis.jpg");
             Modules = new List<Modules>
             {
@@ -72,11 +76,7 @@ namespace EditingUsersWPF
                 Permissions = PermissionsList,
                 Photo = userPhoto
             };
-            UserViewModelList = new ObservableCollection<UserViewModel>();
-            foreach (var item in users)
-            {
-                UserViewModelList.Add(new UserViewModel(item, new EnumValuesProvider(new EnumDescriptionProvider())));
-            }
+            
         }
 
 
