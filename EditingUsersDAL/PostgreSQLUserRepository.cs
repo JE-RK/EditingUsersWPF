@@ -59,7 +59,7 @@ namespace EditingUsersDAL
 
         public IEnumerable<User> GetUserList()
         {
-            return db.Users;
+            return db.Users.Include(x => x.Permissions);
         }
 
         public void Save()

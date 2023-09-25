@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic
 {
-    public class Modules
+    public class Module
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

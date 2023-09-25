@@ -1,5 +1,4 @@
 ﻿using BusinessLogic;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,18 +7,26 @@ using System.Threading.Tasks;
 
 namespace EditingUsersDAL
 {
-    public class PostgreSQLModelsRepository 
+    public class PermissionRepository 
     {
         private ApplicationDBContext db;
 
-        public PostgreSQLModelsRepository()
+        public PermissionRepository()
         {
             db = new ApplicationDBContext();
         }
 
-        public void Create(Module module)
+        public void Create(Permission item)
         {
-            db.Modules.Add(module);
+            throw new NotImplementedException();
+        }
+        public IEnumerable<Permission> GetPermissionList(Guid userId)
+        {
+            return db.Permissions.Where(p => p.UserId == userId); 
+        }
+        public void CreateList(IEnumerable<Permission> list)
+        {
+            db.Permissions.AddRange(list);
         }
 
         public void Delete(int id)
@@ -32,14 +39,14 @@ namespace EditingUsersDAL
             throw new NotImplementedException();
         }
 
-        public Module GetUser(Guid id)
+        public Permission GetUser(int id)
         {
-            return db.Modules.Find(id);
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<Module> GetUserList()
+        public IEnumerable<Permission> GetUserList()
         {
-            return db.Modules;
+            throw new NotImplementedException();
         }
 
         public void Save()
@@ -47,7 +54,7 @@ namespace EditingUsersDAL
             db.SaveChanges();
         }
 
-        public void Update(Module item)
+        public void Update(Permission item)
         {
             throw new NotImplementedException();
         }

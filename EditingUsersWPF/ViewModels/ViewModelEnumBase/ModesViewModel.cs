@@ -9,7 +9,7 @@ namespace EditingUsersWPF.ViewModels.ViewModelEnumBase
     public class ModesViewModel<TEnum> where TEnum : Enum
     {
         public TEnum Value { get; set; }
-        public string Description { get; }
+        public string Description { get; set; }
 
         public ModesViewModel(TEnum value, string description)
         {

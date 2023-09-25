@@ -12,12 +12,13 @@
             <ColumnDefinition Width="80"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="0">
             <TextBlock Text="{Binding Path=LastName}" />
             <TextBlock Text="{Binding Path=FirstName}" />
             <TextBlock Text="{Binding Path=MiddleName}" />
+            <TextBlock Text="{Binding Path=Birthday, StringFormat=(dd.MM.yyyy)}" />
             <TextBlock Text="{Binding Path=TranslateGender}" />
             <TextBlock Text="{Binding Path=TranslateIsBlocked}" />
         </StackPanel>

@@ -49,8 +49,8 @@
             </StackPanel>
         </Grid>
         
-        <local:UserItem Grid.Column="1" DataContext="{Binding SelectedUser}">
+        <local:UserInfo Grid.Column="1" DataContext="{Binding SelectedUser}">
             <ContentControl Content="{Binding}" />
-        </local:UserItem>
+        </local:UserInfo>
     </Grid>
 </Window>

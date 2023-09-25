@@ -15,7 +15,7 @@ namespace EditingUsersDAL
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
         public DbSet<User> Users { get; set; }
-        public DbSet<Modules> Modules { get; set; }
+        public DbSet<Module> Modules { get; set; }
         public DbSet<Permission> Permissions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

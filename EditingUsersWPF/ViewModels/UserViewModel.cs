@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static BusinessLogic.User;
-using EditingUsersWPF.ViewModels.ViewModelEnumBase;
 using User = BusinessLogic.User;
 using System.Windows.Forms;
 using System.IO;
@@ -19,13 +18,15 @@ namespace EditingUsersWPF
     public class UserViewModel : NotifyPropertyChangedBaseClass
     {
         public User user;
+        PostgreSQLModelsRepository repository;
         private ObservableCollection<PermissionViewModel> permissionViewModel;
         private ObservableCollection<ModesViewModel<Modes>> modesEnum;
         public UserViewModel(User user, IEnumValuesProvider enumProvider) 
         { 
             this.user = user;
-            permissionViewModel = new ObservableCollection<PermissionViewModel>(user.Permissions.Select(x =>
-            new PermissionViewModel(x)));
+            repository = new PostgreSQLModelsRepository();
+            List<Module> Modules = repository.GetUserList().ToList();
+            permissionViewModel = new ObservableCollection<PermissionViewModel>(user.Permissions.Select(x => new PermissionViewModel(x)));
             modesEnum = enumProvider.GetValues<Modes>().ToObservableCollection();
         }
 

@@ -16,7 +16,6 @@ namespace BusinessLogic
         public Guid UserId { get; set; }
         public Modes Mode { get; set; }
         public Guid ModuleId { get; set; }
-        public Modules Module { get; set; }
     }
 }
 

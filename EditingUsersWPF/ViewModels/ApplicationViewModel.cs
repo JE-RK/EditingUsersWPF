@@ -11,18 +11,19 @@ using EditingUsersWPF.ViewModels.EnumBase;
 using EditingUsersWPF.ViewModels.ViewModelEnumBase;
 using Permission = BusinessLogic.Permission;
 using System.Collections;
+using Microsoft.VisualBasic.ApplicationServices;
+using System.Windows.Documents;
 
 namespace EditingUsersWPF
 {
     public class ApplicationViewModel : NotifyPropertyChangedBaseClass
     {
-
-        ObservableCollection<User> users = new ObservableCollection<User>();
         IRepository<User> repositoryUsers;
+        PostgreSQLModelsRepository repositoryModules;
+        PermissionRepository repositoryPermissions;
         private UserViewModel selectedUser;
         private byte[] userPhoto;
-        public List<Modules> Modules;
-        public ObservableCollection<Permission> PermissionsList { get; set; }
+        public List<Module> Modules;
         public ObservableCollection<UserViewModel> UserViewModelList  { get; set; } = new ObservableCollection<UserViewModel>();
 
         public UserViewModel SelectedUser
@@ -36,49 +37,14 @@ namespace EditingUsersWPF
         }
         public ApplicationViewModel()
         {
-            
+            repositoryModules = new PostgreSQLModelsRepository();
+            Modules = repositoryModules.GetUserList().ToList();
             repositoryUsers = new PostgreSQLUserRepository();
-            users = new ObservableCollection<User>(repositoryUsers.GetUserList());
-            foreach (var item in users)
-            {
-                UserViewModelList.Add(new UserViewModel(item, new EnumValuesProvider(new EnumDescriptionProvider())));
-            }
-
-            userPhoto = File.ReadAllBytes(@"C:\Users\d-bel\Downloads\kinozpis.jpg");
-            Modules = new List<Modules>
-            {
-                new Modules {Id = Guid.NewGuid(), Name="Продажи"},
-                new Modules {Id = Guid.NewGuid(), Name="Закупки"},
-                new Modules {Id = Guid.NewGuid(), Name="Аналитика"},
-                new Modules {Id = Guid.NewGuid(), Name="Администрирование"},
-            };
-
-            PermissionsList = new ObservableCollection<Permission>
-            {
-                new Permission { Id = Guid.NewGuid(), UserId = Guid.NewGuid(), Mode = BusinessLogic.Modes.Admin, ModuleId = Modules[0].Id, Module = Modules[0]},
-                new Permission { Id = Guid.NewGuid(), UserId = Guid.NewGuid(), Mode = BusinessLogic.Modes.Edit, ModuleId = Modules[1].Id, Module = Modules[1] },
-                new Permission { Id = Guid.NewGuid(), UserId = Guid.NewGuid(), Mode = BusinessLogic.Modes.View, ModuleId = Modules[2].Id, Module = Modules[2] },
-                new Permission { Id = Guid.NewGuid(), UserId = Guid.NewGuid(), Mode = BusinessLogic.Modes.Admin, ModuleId = Modules[3].Id, Module = Modules[3] }
-            };
-
-
-            User user = new User
-            {
-                FirstName = "Дмитрий",
-                LastName = "Беломытцев",
-                MiddleName = "Сергеевич",
-                Birthday = new DateTime(2005, 3, 31),
-                Gender = User.Genders.Man,
-                IsBlocked = false,
-                CreateDate = DateTime.Now,
-                ModifiedDate = DateTime.Now,
-                Id = Guid.NewGuid(),
-                Permissions = PermissionsList,
-                Photo = userPhoto
-            };
-            
+            repositoryPermissions = new PermissionRepository();
+            UserViewModelList = repositoryUsers.GetUserList().Select(b => 
+            new UserViewModel(b, new EnumValuesProvider(new EnumDescriptionProvider()))).ToObservableCollection();
         }
-
+         
 
         private RelayCommand addCommand;
         public RelayCommand AddCommand
@@ -88,7 +54,7 @@ namespace EditingUsersWPF
                 return addCommand ??
                     (addCommand = new RelayCommand(obj =>
                     {
-                        repositoryUsers.Create(selectedUser.user);   
+                        repositoryUsers.Create(selectedUser.user);
                         repositoryUsers.Save();
                     }));
             }
@@ -102,39 +68,17 @@ namespace EditingUsersWPF
                 return addEmptyUserCommand ??
                     (addEmptyUserCommand = new RelayCommand(obj =>
                     {
-                        UserViewModelList.Add(new UserViewModel(new User(), new EnumValuesProvider(new EnumDescriptionProvider())));
+                        User user = new User();
+                        user.Permissions = new List<Permission>
+                        {
+                            new Permission { Id = Guid.NewGuid(), UserId = user.Id, Mode = BusinessLogic.Modes.View, ModuleId = Modules[0].Id },
+                            new Permission { Id = Guid.NewGuid(), UserId = user.Id, Mode = BusinessLogic.Modes.View, ModuleId = Modules[1].Id },
+                            new Permission { Id = Guid.NewGuid(), UserId = user.Id, Mode = BusinessLogic.Modes.View, ModuleId = Modules[2].Id },
+                            new Permission { Id = Guid.NewGuid(), UserId = user.Id, Mode = BusinessLogic.Modes.View, ModuleId = Modules[3].Id }
+                        };
+                        UserViewModelList.Add(new UserViewModel(user, new EnumValuesProvider(new EnumDescriptionProvider())));    
                     }));
             }
         }
-
-
-        private RelayCommand openCommand;
-        public RelayCommand OpenCommand
-        {
-            get
-            {
-                return openCommand ??
-                  (openCommand = new RelayCommand(obj =>
-                  {
-                      if (selectedUser != null)
-                      {
-                          OpenFileDialog openFileDialog = new OpenFileDialog();
-                          openFileDialog.Filter = "Файлы изображений (*.bmp, *.jpg, *.png)|*.bmp;*.jpg;*.png";
-                          openFileDialog.ShowDialog();
-                          var path = openFileDialog.FileName;
-                          if (path != "")
-                          {
-                              selectedUser.Photo = File.ReadAllBytes(path);
-                          }
-                          else
-                          {
-                              openFileDialog.Reset();
-                          }
-                      }
-
-                  }));
-            }
-        }
-
     }
 }
