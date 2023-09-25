@@ -11,11 +11,11 @@ using User = BusinessLogic.User;
 
 namespace EditingUsersDAL
 {
-    public class PostgreSQLUserRepository : IRepository<User>
+    public class UserRepository : IRepository<User>
     {
         private ApplicationDBContext db;
 
-        public PostgreSQLUserRepository()
+        public UserRepository()
         {
             db = new ApplicationDBContext();
         }
@@ -25,39 +25,19 @@ namespace EditingUsersDAL
             db.Users.Add(user);
         }
 
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
             User user = db.Users.Find(id);
             if (user != null)
                 db.Users.Remove(user);
         }
 
-        private bool disposed = false;
-
-        public virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    db.Dispose();
-                }
-            }
-            this.disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        public User GetUser(int id)
+        public User GetItem(Guid id)
         {
             return db.Users.Find(id);
         }
 
-        public IEnumerable<User> GetUserList()
+        public IEnumerable<User> GetItemList()
         {
             return db.Users.Include(x => x.Permissions);
         }

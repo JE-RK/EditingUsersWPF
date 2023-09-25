@@ -18,13 +18,13 @@ namespace EditingUsersWPF
     public class UserViewModel : NotifyPropertyChangedBaseClass
     {
         public User user;
-        PostgreSQLModelsRepository repository;
+        ModuleRepository repository;
         private ObservableCollection<PermissionViewModel> permissionViewModel;
         private ObservableCollection<ModesViewModel<Modes>> modesEnum;
         public UserViewModel(User user, IEnumValuesProvider enumProvider) 
         { 
             this.user = user;
-            repository = new PostgreSQLModelsRepository();
+            repository = new ModuleRepository();
             List<Module> Modules = repository.GetUserList().ToList();
             permissionViewModel = new ObservableCollection<PermissionViewModel>(user.Permissions.Select(x => new PermissionViewModel(x)));
             modesEnum = enumProvider.GetValues<Modes>().ToObservableCollection();

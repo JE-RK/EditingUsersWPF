@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace EditingUsersDAL
 {
-    public class PostgreSQLModelsRepository 
+    public class ModuleRepository 
     {
         private ApplicationDBContext db;
 
-        public PostgreSQLModelsRepository()
+        public ModuleRepository()
         {
             db = new ApplicationDBContext();
         }
@@ -22,17 +22,7 @@ namespace EditingUsersDAL
             db.Modules.Add(module);
         }
 
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Module GetUser(Guid id)
+        public Module GetItem(Guid id)
         {
             return db.Modules.Find(id);
         }
@@ -47,9 +37,5 @@ namespace EditingUsersDAL
             db.SaveChanges();
         }
 
-        public void Update(Module item)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

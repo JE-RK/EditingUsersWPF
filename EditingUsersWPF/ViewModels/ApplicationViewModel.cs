@@ -19,7 +19,7 @@ namespace EditingUsersWPF
     public class ApplicationViewModel : NotifyPropertyChangedBaseClass
     {
         IRepository<User> repositoryUsers;
-        PostgreSQLModelsRepository repositoryModules;
+        ModuleRepository repositoryModules;
         PermissionRepository repositoryPermissions;
         private UserViewModel selectedUser;
         private byte[] userPhoto;
@@ -37,9 +37,9 @@ namespace EditingUsersWPF
         }
         public ApplicationViewModel()
         {
-            repositoryModules = new PostgreSQLModelsRepository();
+            repositoryModules = new ModuleRepository();
             Modules = repositoryModules.GetUserList().ToList();
-            repositoryUsers = new PostgreSQLUserRepository();
+            repositoryUsers = new UserRepository();
             repositoryPermissions = new PermissionRepository();
             UserViewModelList = repositoryUsers.GetUserList().Select(b => 
             new UserViewModel(b, new EnumValuesProvider(new EnumDescriptionProvider()))).ToObservableCollection();

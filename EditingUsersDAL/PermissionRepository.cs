@@ -1,4 +1,6 @@
 ﻿using BusinessLogic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EditingUsersDAL
 {
-    public class PermissionRepository 
+    public class PermissionRepository : IRepository<Permission>
     {
         private ApplicationDBContext db;
 
@@ -18,35 +20,33 @@ namespace EditingUsersDAL
 
         public void Create(Permission item)
         {
-            throw new NotImplementedException();
+            db.Permissions.Add(item);
         }
-        public IEnumerable<Permission> GetPermissionList(Guid userId)
+        public IEnumerable<Permission> GetItemList()
         {
-            return db.Permissions.Where(p => p.UserId == userId); 
+            return db.Permissions;
         }
+
         public void CreateList(IEnumerable<Permission> list)
         {
             db.Permissions.AddRange(list);
         }
 
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
-            throw new NotImplementedException();
+            Permission permission = db.Permissions.Find(id);
+            if (permission != null)
+                db.Permissions.Remove(permission);
         }
 
-        public void Dispose()
+        public Permission GetItem(Guid id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Permission GetUser(int id)
-        {
-            throw new NotImplementedException();
+            return db.Permissions.Find(id);
         }
 
         public IEnumerable<Permission> GetUserList()
         {
-            throw new NotImplementedException();
+            return db.Permissions;
         }
 
         public void Save()
@@ -56,7 +56,9 @@ namespace EditingUsersDAL
 
         public void Update(Permission item)
         {
-            throw new NotImplementedException();
+            db.Entry(item).State = EntityState.Modified;
         }
+
+
     }
 }
