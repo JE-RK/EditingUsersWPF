@@ -35,7 +35,7 @@
                 <TextBox Text="{Binding Pattern, UpdateSourceTrigger=PropertyChanged}" Height="30"></TextBox>
                 <Button Command="{Binding Pattern}" Grid.Column="1" Content="Найти"/>
             </Grid>
-            <ListBox HorizontalContentAlignment="Stretch"   SelectedItem="{Binding SelectedUser}" ItemsSource="{Binding UserViewModelList}" Margin="0,5"  Grid.Row="1">
+            <ListBox HorizontalContentAlignment="Stretch"   SelectedItem="{Binding SelectedUser}" ItemsSource="{Binding UserViewModelList, UpdateSourceTrigger=PropertyChanged}" Margin="0,5"  Grid.Row="1">
                 <ListBox.Resources>
                     <DataTemplate DataType="{x:Type local:UserViewModel}">
                         <local:UserItem />
@@ -43,7 +43,7 @@
                 </ListBox.Resources>
             </ListBox>
             <StackPanel FlowDirection="RightToLeft" HorizontalAlignment="Right" Grid.Row="2" Orientation="Horizontal">
-                <Button Content="Удалить" Width="100" ></Button>
+                <Button Command="{Binding DeleteCommand}" Content="Удалить" Width="100" ></Button>
                 <Button Command="{Binding AddEmptyUserCommand}" Content="Добавить" Margin="10,0" Width="100" ></Button>
                 <Button Command="{Binding AddCommand}"  Width="100" Content="Сохранить"/>
             </StackPanel>

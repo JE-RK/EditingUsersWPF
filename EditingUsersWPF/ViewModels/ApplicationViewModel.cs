@@ -13,18 +13,34 @@ using Permission = BusinessLogic.Permission;
 using System.Collections;
 using Microsoft.VisualBasic.ApplicationServices;
 using System.Windows.Documents;
+using System.Threading;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using Microsoft.EntityFrameworkCore.Storage;
+using Catel;
+using System.Globalization;
 
 namespace EditingUsersWPF
 {
     public class ApplicationViewModel : NotifyPropertyChangedBaseClass
     {
+        ApplicationDBContext db;
         IRepository<User> repositoryUsers;
         ModuleRepository repositoryModules;
         PermissionRepository repositoryPermissions;
         private UserViewModel selectedUser;
         private byte[] userPhoto;
         public List<Module> Modules;
-        public ObservableCollection<UserViewModel> UserViewModelList  { get; set; } = new ObservableCollection<UserViewModel>();
+        private ObservableCollection<UserViewModel> userViewModelList;
+        public ObservableCollection<UserViewModel> UserViewModelList
+        {
+            get { return userViewModelList; }
+            set
+            {
+                userViewModelList = value;
+                OnPropertyChanged("UserViewModelList");
+            }
+        }
 
         public UserViewModel SelectedUser
         {
@@ -37,11 +53,12 @@ namespace EditingUsersWPF
         }
         public ApplicationViewModel()
         {
+            db = new ApplicationDBContext();
             repositoryModules = new ModuleRepository();
             Modules = repositoryModules.GetUserList().ToList();
             repositoryUsers = new UserRepository();
             repositoryPermissions = new PermissionRepository();
-            UserViewModelList = repositoryUsers.GetUserList().Select(b => 
+            UserViewModelList = repositoryUsers.GetItemList().Select(b => 
             new UserViewModel(b, new EnumValuesProvider(new EnumDescriptionProvider()))).ToObservableCollection();
         }
          
@@ -60,6 +77,64 @@ namespace EditingUsersWPF
             }
         }
 
+        private RelayCommand deleteCommand;
+        public RelayCommand DeleteCommand
+        {
+            get
+            {
+                return deleteCommand ??
+                    (deleteCommand = new RelayCommand(obj =>
+                    {
+                        repositoryUsers.Delete(selectedUser.user.Id);
+                        repositoryUsers.Save();
+                    }));
+            }
+        }
+
+        private RelayCommand searchCommand;
+        public RelayCommand SearchCommand
+        {
+            get
+            {
+                return deleteCommand ??
+                    (deleteCommand = new RelayCommand(obj =>
+                    {
+                        repositoryUsers.Delete(selectedUser.user.Id);
+                        userViewModelList.Remove(selectedUser);
+                        repositoryUsers.Save();
+                    }));
+            }
+        }
+
+        string pattern;
+        public string Pattern
+        {
+            get => pattern;
+            set
+            {
+                pattern = value;
+                if (Pattern == "")
+                {
+                    UserViewModelList = repositoryUsers.GetItemList().Select(b =>
+                        new UserViewModel(b, new EnumValuesProvider(new EnumDescriptionProvider()))).ToObservableCollection();
+                }
+                else if(pattern.Length > 3)
+                {
+                    Thread thread = new Thread(_ =>
+                    {
+                        Thread.Sleep(5000);
+
+                        var searchusers = db.Users.FromSqlRaw($"select * from \"Users\" where concat_ws(' ', \"LastName\", \"FirstName\") ilike N'%{pattern}%' or concat_ws(' ', \"FirstName\", \"LastName\") ilike N'%{pattern}%'").ToList();
+                        UserViewModelList = searchusers.Select(b =>
+                            new UserViewModel(b, new EnumValuesProvider(new EnumDescriptionProvider()))).ToObservableCollection();
+
+                    });
+                    thread.Start();
+                }
+                
+            }
+        }
+
         private RelayCommand addEmptyUserCommand;
         public RelayCommand AddEmptyUserCommand
         {
@@ -69,13 +144,10 @@ namespace EditingUsersWPF
                     (addEmptyUserCommand = new RelayCommand(obj =>
                     {
                         User user = new User();
-                        user.Permissions = new List<Permission>
+                        foreach (var module in Modules)
                         {
-                            new Permission { Id = Guid.NewGuid(), UserId = user.Id, Mode = BusinessLogic.Modes.View, ModuleId = Modules[0].Id },
-                            new Permission { Id = Guid.NewGuid(), UserId = user.Id, Mode = BusinessLogic.Modes.View, ModuleId = Modules[1].Id },
-                            new Permission { Id = Guid.NewGuid(), UserId = user.Id, Mode = BusinessLogic.Modes.View, ModuleId = Modules[2].Id },
-                            new Permission { Id = Guid.NewGuid(), UserId = user.Id, Mode = BusinessLogic.Modes.View, ModuleId = Modules[3].Id }
-                        };
+                            user.Permissions.Add(new Permission { Id = Guid.NewGuid(), UserId = user.Id, Mode = BusinessLogic.Modes.View, ModuleId = module.Id });
+                        }
                         UserViewModelList.Add(new UserViewModel(user, new EnumValuesProvider(new EnumDescriptionProvider())));    
                     }));
             }

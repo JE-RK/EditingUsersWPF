@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using BusinessLogic;
+using Microsoft.EntityFrameworkCore.Metadata;
+using System.Windows.Controls;
 
 namespace EditingUsersDAL
 {
@@ -21,6 +23,17 @@ namespace EditingUsersDAL
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Username=postgres;Password=123098;Database=RegisteredUsersDB");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+                .HasMany(p => p.Permissions)
+                .WithOne(u => u.User)
+                .HasForeignKey(s => s.UserId);
+
+            //modelBuilder.Ignore<Module>();
+            //modelBuilder.Entity<Permission>().OwnsOne(p => p.Module);
         }
     }
 }

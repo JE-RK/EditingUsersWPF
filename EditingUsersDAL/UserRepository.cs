@@ -39,7 +39,7 @@ namespace EditingUsersDAL
 
         public IEnumerable<User> GetItemList()
         {
-            return db.Users.Include(x => x.Permissions);
+            return db.Users.Include(x => x.Permissions);//.ThenInclude(m => m.Module);
         }
 
         public void Save()

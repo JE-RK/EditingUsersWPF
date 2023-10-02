@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EditingUsersDAL.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20230919195833_Initial")]
-    partial class Initial
+    [Migration("20230930141123_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace EditingUsersDAL.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("BusinessLogic.Modules", b =>
+            modelBuilder.Entity("BusinessLogic.Module", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -108,19 +108,21 @@ namespace EditingUsersDAL.Migrations
 
             modelBuilder.Entity("BusinessLogic.Permission", b =>
                 {
-                    b.HasOne("BusinessLogic.Modules", "Module")
+                    b.HasOne("BusinessLogic.Module", "Module")
                         .WithMany()
                         .HasForeignKey("ModuleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BusinessLogic.User", null)
+                    b.HasOne("BusinessLogic.User", "User")
                         .WithMany("Permissions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Module");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BusinessLogic.User", b =>

@@ -17,15 +17,15 @@ namespace EditingUsersWPF
     public class PermissionViewModel : NotifyPropertyChangedBaseClass
     {
         Permission permission;
-        ModuleRepository PostgreSQLModelsRepository;
+        ModuleRepository ModuleRepository;
         Module module;
         EnumDescriptionProvider enumDescription;
         ModesViewModel<Modes> selectedMode;
         private ObservableCollection<ModesViewModel<Modes>> modesEnum;
         public PermissionViewModel(Permission permission) {
             this.permission = permission;
-            PostgreSQLModelsRepository = new ModuleRepository();
-            module = PostgreSQLModelsRepository.GetUser(permission.ModuleId);
+            ModuleRepository = new ModuleRepository();
+            module = ModuleRepository.GetItem(permission.ModuleId);
             enumDescription = new EnumDescriptionProvider();
             selectedMode = new ModesViewModel<Modes>(permission.Mode, enumDescription.GetDescription(permission.Mode));
         }
