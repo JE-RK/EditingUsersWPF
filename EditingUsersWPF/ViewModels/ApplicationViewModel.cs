@@ -19,6 +19,7 @@ using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Microsoft.EntityFrameworkCore.Storage;
 using Catel;
 using System.Globalization;
+using System.Windows.Forms;
 
 namespace EditingUsersWPF
 {
@@ -120,15 +121,30 @@ namespace EditingUsersWPF
                 }
                 else if(pattern.Length > 3)
                 {
-                    Thread thread = new Thread(_ =>
+                    DateTime dateValue;
+                    Thread thread;
+                    if (DateTime.TryParse(pattern, out dateValue))
                     {
-                        Thread.Sleep(5000);
+                        thread = new Thread(_ =>
+                        {
+                            var searchusers = db.Users.Where(u => u.Birthday == dateValue).Include(x => x.Permissions).ToList();
+                            UserViewModelList = searchusers.Select(b =>
+                                new UserViewModel(b, new EnumValuesProvider(new EnumDescriptionProvider()))).ToObservableCollection();
+                        });
+      
+                    }
+                    else
+                    {
+                        thread = new Thread(_ =>
+                        {
+                            Thread.Sleep(2000);
 
-                        var searchusers = db.Users.FromSqlRaw($"select * from \"Users\" where concat_ws(' ', \"LastName\", \"FirstName\") ilike N'%{pattern}%' or concat_ws(' ', \"FirstName\", \"LastName\") ilike N'%{pattern}%'").ToList();
-                        UserViewModelList = searchusers.Select(b =>
-                            new UserViewModel(b, new EnumValuesProvider(new EnumDescriptionProvider()))).ToObservableCollection();
-
-                    });
+                            var searchusers = db.Users.FromSqlRaw($"select * from \"Users\" where concat_ws(' ', \"LastName\", \"FirstName\") ilike N'%{pattern}%' or concat_ws(' ', \"FirstName\", \"LastName\") ilike N'%{pattern}%'").Include(x => x.Permissions).ToList();
+                            UserViewModelList = searchusers.Select(b =>
+                                new UserViewModel(b, new EnumValuesProvider(new EnumDescriptionProvider()))).ToObservableCollection();
+                        });
+                        
+                    }
                     thread.Start();
                 }
                 
